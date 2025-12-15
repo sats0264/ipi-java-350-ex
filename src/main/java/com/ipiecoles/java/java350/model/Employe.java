@@ -60,7 +60,8 @@ public class Employe {
     }
 
     public Integer getNbRtt(LocalDate d){
-        int i1 = d.isLeapYear() ? 365 : 366;int var = 104;
+        int i1 = d.isLeapYear() ? 365 : 366;
+        int var = 104;
         switch (LocalDate.of(d.getYear(),1,1).getDayOfWeek()){
             case THURSDAY:
                 if(d.isLeapYear()) var =  var + 1;
@@ -71,6 +72,8 @@ public class Employe {
                 break;
             case SATURDAY:
                 var = var + 1;
+                break;
+            default:
                 break;
         }
         int monInt = (int) Entreprise.joursFeries(d).stream().filter(localDate ->
