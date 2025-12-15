@@ -61,24 +61,23 @@ public class Employe {
 
     public Integer getNbRtt(LocalDate d){
         int i1 = d.isLeapYear() ? 365 : 366;
-        int var = 104;
+        int joursNonTravaillesFixes  = 104;
         switch (LocalDate.of(d.getYear(),1,1).getDayOfWeek()){
             case THURSDAY:
-                if(d.isLeapYear()) var =  var + 1;
+                if(d.isLeapYear()) joursNonTravaillesFixes  += 1;
                 break;
             case FRIDAY:
-                if(d.isLeapYear()) var =  var + 2;
-                else var =  var + 1;
+                joursNonTravaillesFixes += d.isLeapYear() ? 2 : 1;
                 break;
             case SATURDAY:
-                var = var + 1;
+                joursNonTravaillesFixes  += 1;
                 break;
             default:
                 break;
         }
         int monInt = (int) Entreprise.joursFeries(d).stream().filter(localDate ->
                 localDate.getDayOfWeek().getValue() <= DayOfWeek.FRIDAY.getValue()).count();
-        return (int) Math.ceil((i1 - Entreprise.NB_JOURS_MAX_FORFAIT - var - Entreprise.NB_CONGES_BASE - monInt) * tempsPartiel);
+        return (int) Math.ceil((i1 - Entreprise.NB_JOURS_MAX_FORFAIT - joursNonTravaillesFixes  - Entreprise.NB_CONGES_BASE - monInt) * tempsPartiel);
     }
 
     /**
@@ -115,9 +114,7 @@ public class Employe {
         //Au pro rata du temps partiel.
         return prime * this.tempsPartiel;
     }
-
-    //Augmenter salaire
-    //public void augmenterSalaire(double pourcentage){}
+    
 
     public Long getId() {
         return id;
